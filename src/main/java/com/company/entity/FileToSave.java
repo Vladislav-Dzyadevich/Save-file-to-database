@@ -47,6 +47,7 @@ public class FileToSave {
         return size;
     }
 
+
     public void setSize(long size) {
         this.size = size;
     }
