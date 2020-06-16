@@ -12,6 +12,10 @@
             <td><b>User SurName</b></td>
             <td><b>User Login</b></td>
             <td><b>User Password</b></td>
+            <td><b>User Role</b></td>
+            <td><b>Delete</b></td>
+            <td><b>Edit</b></td>
+
         </tr>
         <c:forEach items="${users}" var="user">
             <tr>
@@ -19,13 +23,16 @@
                 <td>${user.surName}</td>
                 <td>${user.login}</td>
                 <td>${user.password}</td>
+                <td>${user.role}</td>
+                <td><a href="/deleteUSer/${user.id}">Delete</a></td>
+                <td><a href="/editUserLogin/${user.id}" type="user">Edit</a></td>
             </tr>
         </c:forEach>
     </table>
 
 </form>
 
-<form action="/" method="get">
+<form action="/menu" method="get">
     <input type="submit" value="Go back">
 </form>
 </body>

@@ -9,7 +9,7 @@
 
 OK!
 
-<form action="/menu" method="get">
+<form action="/userPage" method="get">
     <input type="submit" value="Go back">
 </form>
 </body>

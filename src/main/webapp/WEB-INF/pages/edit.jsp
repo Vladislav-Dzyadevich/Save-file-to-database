@@ -11,8 +11,9 @@
     <input type="submit" value="Ok">
 </form>
 
-<form action="/" method="get">
+<form action="/menu" method="get">
     <p><input type="submit" value="Go back"></p>
-</form>
+</form
+
 </body>
 </html>

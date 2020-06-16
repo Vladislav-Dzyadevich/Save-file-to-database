@@ -9,7 +9,7 @@
 File count is ${allFiles}
 <form action="/show" method="get">
 </form>
-<form action="/" method="get">
+<form action="/menu" method="get">
     <input type="submit" value="Go back">
 </form>
 </body>

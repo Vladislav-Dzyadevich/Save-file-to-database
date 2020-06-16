@@ -21,7 +21,7 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @GetMapping("/")
+    @GetMapping("/menu")
     public String indexPage(Model model) {
         model.addAttribute("files", fileService.listFiles());
         return "index";
@@ -32,17 +32,38 @@ public class FileController {
         return "upload";
     }
 
+    @GetMapping("/uploadForUser")
+    public String uploadForUser() {
+        return "uploadForUser";
+    }
+
     @PostMapping("/file")
     public String saveFile(@RequestParam("file") MultipartFile file) throws IOException {
-        FileDto dto = new FileDto(file.getOriginalFilename(), file.getBytes(), file.getSize());
+        FileDto dto = FileDto.builder()
+                .content(file.getBytes())
+                .originFileName(file.getOriginalFilename())
+                .size(file.getSize())
+                .build();
+
         fileService.addFile(dto);
         return "ok";
+    }
+
+    @PostMapping("/fileForUser")
+    public String saveFileForUSer(@RequestParam("file") MultipartFile file) throws IOException {
+        FileDto dto = FileDto.builder()
+                .originFileName(file.getOriginalFilename())
+                .content(file.getBytes())
+                .size(file.getSize())
+                .build();
+        fileService.addFile(dto);
+        return "okForUser";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteFile(@PathVariable("id") Long fileId) {
         fileService.deleteFile(fileId);
-        return "index";
+        return "redirect:/allUsers";
     }
 
     @GetMapping("/download/{id}")
@@ -72,7 +93,7 @@ public class FileController {
     @PostMapping("/edit/{id}")
     public String editFile(@PathVariable("id") Long fileId, @RequestParam("newFileName") String newFileName) {
         fileService.editFile(fileId, newFileName);
-        return "redirect:/";
+        return "redirect:/menu";
     }
 
 }

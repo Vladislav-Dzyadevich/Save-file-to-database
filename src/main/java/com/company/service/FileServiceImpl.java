@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -24,8 +24,9 @@ public class FileServiceImpl implements FileService {
         fileToSave.setSize(file.getSize() / 1024);
         fileRepository.save(fileToSave);
     }
+
     @Transactional
-    public void deleteFile(Long id){
+    public void deleteFile(Long id) {
         fileRepository.deleteById(id);
     }
 
@@ -37,7 +38,11 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public FileDto findFileById(Long id) {
         FileToSave file = fileRepository.findById(id).get();
-        FileDto dto = new FileDto(file.getFileName(), file.getContent(), file.getSize());
+        FileDto dto = FileDto.builder()
+                .originFileName(file.getFileName())
+                .content(file.getContent())
+                .size(file.getSize())
+                .build();
         return dto;
     }
 
@@ -46,13 +51,11 @@ public class FileServiceImpl implements FileService {
         FileToSave file = fileRepository.findById(id).get();
         file.setFileName(newFileName);
         fileRepository.save(file);
-
     }
 
     @Transactional
     public int fileCount() {
-       int count = (int) fileRepository.count();
-       return count;
+        return (int) fileRepository.count();
     }
 
 }

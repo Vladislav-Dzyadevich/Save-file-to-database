@@ -2,14 +2,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Upload file</title>
+    <title>You are missing</title>
 </head>
-
 <body>
-
-OK!
-
-<form action="/menu" method="get">
+<form action="unauthorized" method="get">
+    <p>You are missing</p>
+</form>
+<form action="/" method="get">
     <input type="submit" value="Go back">
 </form>
 </body>

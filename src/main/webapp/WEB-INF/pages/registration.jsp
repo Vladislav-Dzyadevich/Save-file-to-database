@@ -5,7 +5,7 @@
     <title>Registration</title>
 </head>
 <body>
-<p><b>Введите Ваши данные</b></p>
+<p><b>Регистрация</b></p>
 <form action="/registration" method="post">
     <p><strong>Имя:</strong>
         <input type="text" maxlength="25" size="40" name="name"></p>
@@ -16,7 +16,9 @@
     <p><strong>Пароль:</strong>
         <input type="password" maxlength="25" size="40" name="password"></p>
     <input type="submit" value="Submit">
+   <p>${error}</p>
 </form>
+
 <form action="/" method="get">
     <p><input type="submit" value="Go back"></p>
 </form>

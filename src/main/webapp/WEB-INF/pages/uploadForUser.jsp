@@ -4,13 +4,16 @@
 <head>
     <title>Upload file</title>
 </head>
-
 <body>
 
-OK!
+<form action="/fileForUser" method="post" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <input type="submit" value="Upload">
+</form>
 
-<form action="/menu" method="get">
+<form action="/userPage" method="get">
     <input type="submit" value="Go back">
 </form>
+
 </body>
 </html>

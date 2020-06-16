@@ -2,37 +2,25 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Upload file</title>
+    <title>User Menu</title>
 </head>
 <body>
-<form action="/show" method="get">
-    <input type="submit" value="show files">
-</form>
-
-<form action="/upload" method="get">
+<form action="/uploadForUser" method="get">
     <input type="submit" value="Upload file">
 </form>
 
-<form action="/allUsers" method="get">
-    <input type="submit" value="All Users">
-</form>
-
-<form action="/menu" method="get">
+<form >
     <table align="left" border="2">
         <tr>
             <td><b>File Name</b></td>
             <td><b>Size (KB)</b></td>
-            <td><b>Delete</b></td>
             <td><b>Download</b></td>
-            <td><b>Edit</b></td>
         </tr>
         <c:forEach items="${files}" var="file">
             <tr>
                 <td>${file.fileName}</td>
                 <td>${file.size}</td>
-                <td><a href="/delete/${file.id}">Delete</a></td>
                 <td><a href="/download/${file.id}" type="file">Download</a></td>
-                <td><a href="/edit/${file.id}" type="file">Edit</a></td>
             </tr>
         </c:forEach>
     </table>
@@ -40,6 +28,5 @@
 <form action="/logout" method="get">
     <input type="submit" value="Logout">
 </form>
-
 </body>
 </html>

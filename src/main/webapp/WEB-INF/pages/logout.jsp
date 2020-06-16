@@ -2,15 +2,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Upload file</title>
+    <title>Logout</title>
 </head>
-
 <body>
-
-OK!
-
-<form action="/menu" method="get">
-    <input type="submit" value="Go back">
+<form action="/logout" method="post">
+    <input type="submit" value="Ok">
 </form>
 </body>
 </html>
