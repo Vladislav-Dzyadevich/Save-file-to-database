@@ -1,10 +1,11 @@
 package com.company.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.File;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -27,6 +28,9 @@ public class CustomUser {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
+    private String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role")

@@ -5,7 +5,7 @@
     <title>Edit User Login</title>
 </head>
 <body>
-<form action="/editUserLogin/${userId}" method="post">
+<form action="/admin/editUserLogin/${userId}" method="post">
     <p><b>Введите новое имя</b></p>
     <input type="text" value="${userName}" name="newUserName">
    <p><b>Введите новую фамилию</b></p>
@@ -14,10 +14,13 @@
     <input type="text" value="${userLogin}" name="newUserLogin">
     <p><b>Введите новый пароль</b></p>
     <input type="text" value="${userPassword}" name="newUserPassword">
+    <p><b>Введите новую почту</b></p>
+    <input type="text" value="${userEmail}" name="newUserEmail">
     <input type="submit" value="Ok">
+    <p>${IncorrectEmail}</p>
 </form>
 
-<form action="/menu" method="get">
+<form action="/admin/menu" method="get">
     <p><input type="submit" value="Go back"></p>
 </form>
 </body>

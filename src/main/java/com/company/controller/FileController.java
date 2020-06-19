@@ -21,9 +21,13 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
-    @GetMapping("/menu")
-    public String indexPage(Model model) {
-        model.addAttribute("files", fileService.listFiles());
+    @GetMapping("/admin/menu")
+    public String indexPage(Model model, @RequestParam(value = "name", required = false) String name) {
+        if (name != null) {
+            model.addAttribute("files", fileService.findByFileName(name));
+        } else {
+            model.addAttribute("files", fileService.listFiles());
+        }
         return "index";
     }
 
@@ -63,7 +67,7 @@ public class FileController {
     @GetMapping("/delete/{id}")
     public String deleteFile(@PathVariable("id") Long fileId) {
         fileService.deleteFile(fileId);
-        return "redirect:/allUsers";
+        return "redirect:/admin/menu";
     }
 
     @GetMapping("/download/{id}")
@@ -82,7 +86,7 @@ public class FileController {
         return "show";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/admin/edit/{id}")
     public String editFilePage(@PathVariable("id") Long fileId, Model model) {
         model.addAttribute("fileName", fileService.findFileById(fileId).getOriginFileName());
         model.addAttribute("fileId", fileId);
@@ -90,10 +94,10 @@ public class FileController {
         return "edit";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping("/admin/edit/{id}")
     public String editFile(@PathVariable("id") Long fileId, @RequestParam("newFileName") String newFileName) {
         fileService.editFile(fileId, newFileName);
-        return "redirect:/menu";
+        return "redirect:/admin/menu";
     }
 
 }

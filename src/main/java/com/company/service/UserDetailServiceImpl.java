@@ -1,8 +1,6 @@
 package com.company.service;
 
 import com.company.dto.UserDto;
-import com.company.entity.CustomUser;
-import com.company.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+
 @Service
 public class UserDetailServiceImpl implements UserDetailsService {
 

@@ -26,7 +26,7 @@
     </table>
 </form>
 <form action="/logout" method="get">
-    <input type="submit" value="Logout">
+  <input type="submit" value="Logout">
 </form>
 </body>
 </html>

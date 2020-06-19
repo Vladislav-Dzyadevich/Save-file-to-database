@@ -1,6 +1,5 @@
 package com.company.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,4 +24,9 @@ public class FileToSave {
 
     @Column(name = "size")
     private long size;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private FileStatus fileStatus;
+
 }

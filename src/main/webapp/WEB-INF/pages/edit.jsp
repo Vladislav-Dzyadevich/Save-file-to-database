@@ -6,14 +6,14 @@
 </head>
 <body>
 <p><b>Сделайте изменения</b></p>
-<form action="/edit/${fileId}" method="post">
+<form action="/admin/edit/${fileId}" method="post">
     <input type="text" value="${fileName}" name="newFileName">
     <input type="submit" value="Ok">
 </form>
 
-<form action="/menu" method="get">
+<form action="/admin/menu" method="get">
     <p><input type="submit" value="Go back"></p>
-</form
+</form>
 
 </body>
 </html>

@@ -30,10 +30,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers()
-                .permitAll()
                 .antMatchers("/registration")
                 .permitAll()
+                .antMatchers("/admin/**")
+                .hasAnyRole(Role.ADMIN.name())
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/unauthorized")
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                     for (GrantedAuthority authority : user.getAuthorities()) {
                         if (Role.ADMIN.toString().equals(authority.getAuthority())) {
-                            res.sendRedirect("/menu");
+                            res.sendRedirect("/admin/menu");
                         } else {
                             res.sendRedirect("/userPage");
                         }

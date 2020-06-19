@@ -13,11 +13,16 @@
     <input type="submit" value="Upload file">
 </form>
 
-<form action="/allUsers" method="get">
+<form action="/admin/allUsers" method="get">
     <input type="submit" value="All Users">
 </form>
 
-<form action="/menu" method="get">
+<form action="/admin/menu" method="get">
+    <input id = "txtSearch" type="text" name="name">
+    <button type="submit">Search</button>
+</form>
+
+<form action="/admin/menu" method="get">
     <table align="left" border="2">
         <tr>
             <td><b>File Name</b></td>
@@ -32,13 +37,13 @@
                 <td>${file.size}</td>
                 <td><a href="/delete/${file.id}">Delete</a></td>
                 <td><a href="/download/${file.id}" type="file">Download</a></td>
-                <td><a href="/edit/${file.id}" type="file">Edit</a></td>
+                <td><a href="/admin/edit/${file.id}" type="file">Edit</a></td>
             </tr>
         </c:forEach>
     </table>
 </form>
 <form action="/logout" method="get">
-    <input type="submit" value="Logout">
+  <input type="submit" value="Logout">
 </form>
 
 </body>

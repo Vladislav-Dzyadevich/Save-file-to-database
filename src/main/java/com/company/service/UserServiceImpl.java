@@ -1,23 +1,31 @@
 package com.company.service;
 
-import com.company.entity.Role;
+import com.company.dto.FileDto;
 import com.company.dto.UserDto;
 import com.company.entity.CustomUser;
+import com.company.entity.Role;
+import com.company.mail.MailingService;
 import com.company.repository.UserRepository;
+import com.company.util.LinkGeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private MailingService mailingService;
 
     @Transactional
     public void saveUserInDb(UserDto userDto) {
@@ -27,16 +35,18 @@ public class UserServiceImpl implements UserService {
         user.setSurName(userDto.getSurName());
         user.setLogin(userDto.getLogin());
         user.setPassword(encoder.encode(userDto.getPassword()));
+        user.setEmail(userDto.getEmail());
         userRepository.save(user);
     }
 
     @Override
     public UserDto findUserById(Long id) {
         CustomUser user = userRepository.findById(id).get();
-        UserDto dto =  UserDto.builder()
+        UserDto dto = UserDto.builder()
                 .name(user.getName())
                 .surName(user.getSurName())
                 .login(user.getLogin())
+                .email(user.getEmail())
                 .password(user.getPassword())
                 .role(user.getRole())
                 .build();
@@ -59,15 +69,85 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
     @Override
-    public UserDto findUserByLogin(String login) {
+    public boolean isEmailValid(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." +
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
+    }
+
+    @Override
+    public List<FileDto> showUploadFiles(UserDto userDto) {
+        return null;
+    }
+
+    @Override
+    public void resetPassword(String newPassword, String email) {
+        CustomUser user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setPassword(encoder.encode(newPassword));
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void sendResetMessage(UserDto user) {
+        mailingService.setResetLink(LinkGeneratorUtils.generateResetLink(user.getEmail()));
+        mailingService.sendUserResetPasswordMessage(user);
+    }
+
+    @Override
+    public boolean isEmailPresentInDb(String email) {
+        List<CustomUser> users = userRepository.findAll();
+        for (CustomUser user : users) {
+            if (user.getEmail().equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<CustomUser> findByNameAndSurName(String name) {
+        return userRepository.findByNameAndSurName(name);
+    }
+
+    @Override
+    public UserDto findUserByEmail(String email) {
+        CustomUser customUser = userRepository.findByEmail(email);
+        if(customUser != null){
+            UserDto userDto = UserDto.builder()
+                    .name(customUser.getName())
+                    .surName(customUser.getSurName())
+                    .login(customUser.getLogin())
+                    .password(customUser.getPassword())
+                    .role(customUser.getRole())
+                    .email(customUser.getEmail())
+                    .build();
+            return userDto;
+        }
+        return null;
+
+    }
+
+    @Override
+    public UserDto
+    findUserByLogin(String login) {
         CustomUser customUser = userRepository.findByLogin(login);
-        UserDto dto =  UserDto.builder()
+        UserDto dto = UserDto.builder()
                 .name(customUser.getName())
                 .surName(customUser.getSurName())
                 .login(customUser.getLogin())
                 .password(customUser.getPassword())
                 .role(customUser.getRole())
+                .email(customUser.getEmail())
                 .build();
 
         return dto;
@@ -96,13 +176,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserPassword) {
+    public void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserPassword, String newUserEmail) {
         CustomUser user = userRepository.findById(id).get();
         user.setName(newUserName);
         user.setSurName(newUserSurName);
         user.setLogin(newUserLogin);
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
+        user.setPassword(encoder.encode(newUserPassword));
+        user.setEmail(newUserEmail);
         userRepository.save(user);
     }
 

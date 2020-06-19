@@ -47,6 +47,11 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public List<FileToSave> findByFileName(String name) {
+        return fileRepository.findByFileName(name);
+    }
+
+    @Override
     public void editFile(Long id, String newFileName) {
         FileToSave file = fileRepository.findById(id).get();
         file.setFileName(newFileName);

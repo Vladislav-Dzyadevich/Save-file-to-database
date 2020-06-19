@@ -11,7 +11,7 @@
     <input type="submit" value="Upload">
 </form>
 
-<form action="/menu" method="get">
+<form action="/admin/menu" method="get">
     <input type="submit" value="Go back">
 </form>
 
