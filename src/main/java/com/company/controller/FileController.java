@@ -1,8 +1,12 @@
 package com.company.controller;
 
 import com.company.dto.FileDto;
+import com.company.entity.CustomUser;
+import com.company.entity.FileStatus;
 import com.company.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -42,25 +46,30 @@ public class FileController {
     }
 
     @PostMapping("/file")
-    public String saveFile(@RequestParam("file") MultipartFile file) throws IOException {
+    public String saveFile(@RequestParam("file") MultipartFile file,
+                           @RequestParam("status") FileStatus status,
+                           @AuthenticationPrincipal Authentication auth) throws IOException {
         FileDto dto = FileDto.builder()
                 .content(file.getBytes())
                 .originFileName(file.getOriginalFilename())
                 .size(file.getSize())
+                .fileStatus(status)
                 .build();
-
-        fileService.addFile(dto);
+        fileService.addFile(dto, auth.getName());
         return "ok";
     }
 
     @PostMapping("/fileForUser")
-    public String saveFileForUSer(@RequestParam("file") MultipartFile file) throws IOException {
+    public String saveFileForUSer(@RequestParam("file") MultipartFile file,
+                                  @RequestParam("status") FileStatus status,
+                                  @AuthenticationPrincipal Authentication auth) throws IOException {
         FileDto dto = FileDto.builder()
                 .originFileName(file.getOriginalFilename())
                 .content(file.getBytes())
                 .size(file.getSize())
+                .fileStatus(status)
                 .build();
-        fileService.addFile(dto);
+        fileService.addFile(dto, auth.getName());
         return "okForUser";
     }
 
@@ -99,5 +108,13 @@ public class FileController {
         fileService.editFile(fileId, newFileName);
         return "redirect:/admin/menu";
     }
+
+    @GetMapping("/storage/private-files")
+    public String storagePrivateFiles(@AuthenticationPrincipal Authentication auth, Model model) {
+        model.addAttribute("files", fileService.findAllByUserLoginAndFileStatusIs(auth.getName(), FileStatus.PRIVATE));
+        return "showPrivatefiles";
+
+    }
+
 
 }

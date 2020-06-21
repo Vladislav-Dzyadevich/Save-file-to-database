@@ -7,7 +7,7 @@
 <body>
 <form action="/reset-password" method="post">
     <p>Enter your new password: </p>
-    <input type="password" name="newPassword">
+   <P><input type="password" name="newPassword"></P>
     <br>
     <input type="text" value="${email}" name="email">
     <input type="submit" value="ok">

@@ -1,7 +1,9 @@
 package com.company.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.tomcat.jni.File;
 
 import javax.persistence.*;
@@ -9,7 +11,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "user")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class CustomUser {
 
@@ -35,5 +38,8 @@ public class CustomUser {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
+
+    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    private List<FileToSave> files;
 
 }

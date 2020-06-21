@@ -13,6 +13,5 @@ public class FileDto {
     private byte[] content;
     private long size;
     private FileStatus fileStatus;
-    private CustomUser customUser;
 
 }

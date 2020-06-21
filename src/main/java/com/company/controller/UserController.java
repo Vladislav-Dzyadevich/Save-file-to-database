@@ -1,6 +1,7 @@
 package com.company.controller;
 
 import com.company.dto.UserDto;
+import com.company.entity.FileStatus;
 import com.company.service.FileService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -69,7 +70,7 @@ public class UserController {
 
     @GetMapping("/userPage")
     public String userPage(Model model) {
-        model.addAttribute("files", fileService.listFiles());
+        model.addAttribute("files", fileService.getFileByStatus(FileStatus.PUBLIC));
         return "userPage";
     }
 
@@ -88,10 +89,4 @@ public class UserController {
     public String resetPassword() {
         return "enterEmailForRecoverPassword";
     }
-    @GetMapping("/Show-upload-files")
-    public void getMyFiles(@AuthenticationPrincipal Authentication auth) {
-       auth.getName();
-    }
-
-
 }

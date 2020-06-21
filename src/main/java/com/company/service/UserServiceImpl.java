@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto findUserByEmail(String email) {
         CustomUser customUser = userRepository.findByEmail(email);
-        if(customUser != null){
+        if (customUser != null) {
             UserDto userDto = UserDto.builder()
                     .name(customUser.getName())
                     .surName(customUser.getSurName())

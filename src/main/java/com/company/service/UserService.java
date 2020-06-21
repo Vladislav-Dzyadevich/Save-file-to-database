@@ -36,8 +36,9 @@ public interface UserService {
 
     void sendResetMessage(UserDto email);
 
-    void  resetPassword(String newPassword, String email);
+    void resetPassword(String newPassword, String email);
 
     List<FileDto> showUploadFiles(UserDto userDto);
+
 
 }

@@ -1,14 +1,14 @@
 package com.company.mail;
 
-import java.util.Arrays;
-import java.util.Objects;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.util.Arrays;
+import java.util.Objects;
 
 @Slf4j
 public class MailBuilder {

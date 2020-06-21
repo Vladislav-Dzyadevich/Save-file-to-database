@@ -1,8 +1,10 @@
 package com.company.service;
 
 import com.company.dto.FileDto;
+import com.company.entity.FileStatus;
 import com.company.entity.FileToSave;
 import com.company.repository.FileRepository;
+import com.company.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +17,17 @@ public class FileServiceImpl implements FileService {
 
     @Autowired
     private FileRepository fileRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
-    public void addFile(FileDto file) {
+    public void addFile(FileDto file, String ownerLogin) {
         FileToSave fileToSave = new FileToSave();
         fileToSave.setFileName(file.getOriginFileName());
         fileToSave.setContent(file.getContent());
         fileToSave.setSize(file.getSize() / 1024);
+        fileToSave.setFileStatus(file.getFileStatus());
+        fileToSave.setUser(userRepository.findByLogin(ownerLogin));
         fileRepository.save(fileToSave);
     }
 
@@ -44,6 +50,16 @@ public class FileServiceImpl implements FileService {
                 .size(file.getSize())
                 .build();
         return dto;
+    }
+
+    @Override
+    public List<FileToSave> findAllByUserLoginAndFileStatusIs(String userLogin, FileStatus fileStatus) {
+        return fileRepository.findAllByUser_LoginAndFileStatusIs(userLogin, fileStatus);
+    }
+
+    @Override
+    public List<FileToSave> getFileByStatus(FileStatus fileStatus) {
+        return fileRepository.findAllByFileStatus(fileStatus);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.company.repository;
 
+import com.company.entity.FileStatus;
 import com.company.entity.FileToSave;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,8 @@ import java.util.List;
 public interface FileRepository extends JpaRepository<FileToSave, Long> {
     @Query(value = "select f from FileToSave f where f.fileName like %:name%")
     List<FileToSave> findByFileName(@Param("name") String name);
+
+    List<FileToSave> findAllByFileStatus(FileStatus fileStatus);
+
+    List<FileToSave> findAllByUser_LoginAndFileStatusIs(String userLogin, FileStatus fileStatus);
 }

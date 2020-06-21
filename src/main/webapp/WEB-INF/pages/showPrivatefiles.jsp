@@ -2,19 +2,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Menu</title>
+    <title>Private files</title>
 </head>
 <body>
-<form action="/uploadForUser" method="get">
-    <input type="submit" value="Upload file">
-</form>
 <form action="/storage/private-files" method="get">
-    <input type="submit" value="Show my private files">
-</form>
-<form action="/logout" method="get">
-    <input type="submit" value="Logout">
-</form>
-<form >
     <table align="left" border="2">
         <tr>
             <td><b>File Name</b></td>
@@ -30,6 +21,10 @@
         </c:forEach>
     </table>
 </form>
-
+<p>
+<form action="/userPage" method="get">
+    <input type="submit" value="Go back">
+</form>
+</p>
 </body>
 </html>

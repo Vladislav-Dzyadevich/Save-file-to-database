@@ -1,15 +1,17 @@
 package com.company.entity;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-
 public class FileToSave {
 
     @Id
@@ -28,5 +30,8 @@ public class FileToSave {
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private FileStatus fileStatus;
+
+    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    private CustomUser user;
 
 }

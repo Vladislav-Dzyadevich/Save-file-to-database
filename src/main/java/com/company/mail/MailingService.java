@@ -1,15 +1,14 @@
 package com.company.mail;
 
-import java.util.ResourceBundle;
-
 import com.company.dto.UserDto;
-import com.company.entity.CustomUser;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
+
+import java.util.ResourceBundle;
 
 @Service
 @Slf4j

@@ -8,6 +8,11 @@
 
 <form action="/fileForUser" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
+    <p>
+    <input type="radio" id="public" name="status" value="PUBLIC">
+    <label for="public">Public</label><br>
+    <input type="radio" id="private" name="status" value="PRIVATE">
+    <label for="private">Private</label>
     <input type="submit" value="Upload">
 </form>
 
