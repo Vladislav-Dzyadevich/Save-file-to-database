@@ -15,6 +15,7 @@ import java.util.List;
 public class CustomUser {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
