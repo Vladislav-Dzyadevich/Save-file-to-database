@@ -21,7 +21,7 @@ public class FileToSave {
     @Column(name = "fileName")
     private String fileName;
 
-    @Column(name = "content", columnDefinition = "longblob")
+    @Column(name = "content", columnDefinition = "bytea")
     private byte[] content;
 
     @Column(name = "size")
