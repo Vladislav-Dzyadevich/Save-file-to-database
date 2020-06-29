@@ -88,12 +88,17 @@ public class UserController {
 
     @PostMapping("/send-mail/reset-password")
     public String resetPassword(@RequestParam("email") String email, Model model) {
+        log.info("resetPassword - Before find user by email");
         UserDto userDto = userService.findUserByEmail(email);
+        log.info("resetPassword - Before if");
         if (userDto == null) {
             model.addAttribute("emailFail", "user with such email not found");
+            log.info("resetPassword - email fail");
             return "enterEmailForRecoverPassword";
         }
+        log.info("resetPassword - Before sendResetMessage");
         userService.sendResetMessage(userDto);
+        log.info("resetPassword - after sendResetMessage");
         return "okForEmail";
     }
 
@@ -101,6 +106,7 @@ public class UserController {
     public String resetPassword() {
         return "enterEmailForRecoverPassword";
     }
+
     private long getPageCount(long totalCount) {
         return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
