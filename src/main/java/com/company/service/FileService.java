@@ -3,8 +3,9 @@ package com.company.service;
 import com.company.dto.FileDto;
 import com.company.entity.FileStatus;
 import com.company.entity.FileToSave;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface FileService {
 
@@ -12,7 +13,9 @@ public interface FileService {
 
     void deleteFile(Long id);
 
-    List<FileToSave> listFiles();
+    Page<FileToSave> listFiles(Pageable pageable);
+
+    Page<FileToSave> listFilesWithPublicStatus(FileStatus status, Pageable pageable);
 
     FileDto findFileById(Long id);
 
@@ -20,9 +23,11 @@ public interface FileService {
 
     void editFile(Long id, String newFileName);
 
-    List<FileToSave> findByFileName(String name);
+    Page<FileToSave> findByFileName(Pageable pageable, String name);
 
-    List<FileToSave> getFileByStatus(FileStatus fileStatus);
+    Page<FileToSave> getFileByStatus(Pageable pageable, String name, FileStatus fileStatus);
 
-    List<FileToSave> findAllByUserLoginAndFileStatusIs(String userLogin, FileStatus fileStatus);
+    Page<FileToSave> findAllByUserLoginAndFileStatusIs(Pageable pageable, String userLogin, FileStatus fileStatus);
+
+
 }

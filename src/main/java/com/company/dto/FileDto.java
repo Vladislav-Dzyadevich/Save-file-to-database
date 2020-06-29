@@ -1,6 +1,5 @@
 package com.company.dto;
 
-import com.company.entity.CustomUser;
 import com.company.entity.FileStatus;
 import lombok.Builder;
 import lombok.Data;

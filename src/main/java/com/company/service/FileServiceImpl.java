@@ -6,15 +6,15 @@ import com.company.entity.FileToSave;
 import com.company.repository.FileRepository;
 import com.company.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-
 
 @Service
 public class FileServiceImpl implements FileService {
-
+    static final int ITEMS_PER_PAGE = 5;
     @Autowired
     private FileRepository fileRepository;
     @Autowired
@@ -36,9 +36,15 @@ public class FileServiceImpl implements FileService {
         fileRepository.deleteById(id);
     }
 
+
     @Transactional
-    public List<FileToSave> listFiles() {
-        return fileRepository.findAll();
+    public Page<FileToSave> listFiles(Pageable pageable) {
+        return fileRepository.findAll(pageable);
+    }
+
+    @Override
+    public Page<FileToSave> listFilesWithPublicStatus(FileStatus status, Pageable pageable) {
+        return fileRepository.findAllByFileStatusIs(status, pageable);
     }
 
     @Transactional
@@ -52,19 +58,20 @@ public class FileServiceImpl implements FileService {
         return dto;
     }
 
+
     @Override
-    public List<FileToSave> findAllByUserLoginAndFileStatusIs(String userLogin, FileStatus fileStatus) {
-        return fileRepository.findAllByUser_LoginAndFileStatusIs(userLogin, fileStatus);
+    public Page<FileToSave> findAllByUserLoginAndFileStatusIs(Pageable pageable, String userLogin, FileStatus fileStatus) {
+        return fileRepository.findAllByUser_LoginAndFileStatusIs(pageable, userLogin, fileStatus);
     }
 
     @Override
-    public List<FileToSave> getFileByStatus(FileStatus fileStatus) {
-        return fileRepository.findAllByFileStatus(fileStatus);
+    public Page<FileToSave> getFileByStatus(Pageable pageable, String name, FileStatus fileStatus) {
+        return fileRepository.findAllByFileStatusOrderByIdDesc(pageable, name, fileStatus);
     }
 
     @Override
-    public List<FileToSave> findByFileName(String name) {
-        return fileRepository.findByFileName(name);
+    public Page<FileToSave> findByFileName(Pageable pageable, String name) {
+        return fileRepository.findByFileName(pageable, name);
     }
 
     @Override

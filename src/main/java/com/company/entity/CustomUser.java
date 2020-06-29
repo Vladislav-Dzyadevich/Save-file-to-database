@@ -1,10 +1,8 @@
 package com.company.entity;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.tomcat.jni.File;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,7 +37,7 @@ public class CustomUser {
     @Column(name = "role")
     private Role role;
 
-    @OneToMany(mappedBy="user", fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<FileToSave> files;
 
 }

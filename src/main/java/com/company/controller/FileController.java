@@ -1,10 +1,13 @@
 package com.company.controller;
 
 import com.company.dto.FileDto;
-import com.company.entity.CustomUser;
 import com.company.entity.FileStatus;
+import com.company.entity.FileToSave;
 import com.company.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,17 +24,25 @@ import java.io.IOException;
 
 @Controller
 public class FileController {
-
+    static final int ITEMS_PER_PAGE = 5;
     @Autowired
     private FileService fileService;
 
     @GetMapping("/admin/menu")
-    public String indexPage(Model model, @RequestParam(value = "name", required = false) String name) {
+    public String indexPage(Model model, @RequestParam(value = "name", required = false) String name,
+                            @RequestParam(required = false, defaultValue = "0") Integer page) {
+        if (page < 0) page = 0;
+
+        PageRequest pageParameters = PageRequest.of(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id");
+        Page<FileToSave> files;
         if (name != null) {
-            model.addAttribute("files", fileService.findByFileName(name));
+            files = fileService.findByFileName(pageParameters, name);
+            model.addAttribute("name", name);
         } else {
-            model.addAttribute("files", fileService.listFiles());
+            files = fileService.listFiles(pageParameters);
         }
+        model.addAttribute("files", files.getContent());
+        model.addAttribute("allPages", getPageCount(files.getTotalElements()));
         return "index";
     }
 
@@ -47,8 +58,9 @@ public class FileController {
 
     @PostMapping("/file")
     public String saveFile(@RequestParam("file") MultipartFile file,
-                           @RequestParam("status") FileStatus status,
-                           @AuthenticationPrincipal Authentication auth) throws IOException {
+                           @RequestParam(value = "status", defaultValue = "PUBLIC") FileStatus status,
+                           @AuthenticationPrincipal Authentication auth, Model model) throws IOException {
+
         FileDto dto = FileDto.builder()
                 .content(file.getBytes())
                 .originFileName(file.getOriginalFilename())
@@ -61,7 +73,7 @@ public class FileController {
 
     @PostMapping("/fileForUser")
     public String saveFileForUSer(@RequestParam("file") MultipartFile file,
-                                  @RequestParam("status") FileStatus status,
+                                  @RequestParam(value = "status", defaultValue = "PUBLIC") FileStatus status,
                                   @AuthenticationPrincipal Authentication auth) throws IOException {
         FileDto dto = FileDto.builder()
                 .originFileName(file.getOriginalFilename())
@@ -110,11 +122,27 @@ public class FileController {
     }
 
     @GetMapping("/storage/private-files")
-    public String storagePrivateFiles(@AuthenticationPrincipal Authentication auth, Model model) {
-        model.addAttribute("files", fileService.findAllByUserLoginAndFileStatusIs(auth.getName(), FileStatus.PRIVATE));
+    public String storagePrivateFiles(@AuthenticationPrincipal Authentication auth, Model model,
+                                      @RequestParam(value = "name", required = false) String name,
+                                      @RequestParam(required = false, defaultValue = "0") Integer page) {
+        if (page < 0) page = 0;
+
+        PageRequest pageParameters = PageRequest.of(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id");
+        Page<FileToSave> files;
+        if (name != null) {
+            files = fileService.getFileByStatus(pageParameters, name, FileStatus.PRIVATE);
+            model.addAttribute("name", name);
+        } else {
+            files = fileService.findAllByUserLoginAndFileStatusIs(pageParameters, auth.getName(), FileStatus.PRIVATE);
+        }
+        model.addAttribute("files", files.getContent());
+        model.addAttribute("allPages", getPageCount(files.getTotalElements()));
         return "showPrivatefiles";
 
     }
 
+    private long getPageCount(long totalCount) {
+        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+    }
 
 }

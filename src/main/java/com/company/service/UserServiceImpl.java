@@ -8,6 +8,8 @@ import com.company.mail.MailingService;
 import com.company.repository.UserRepository;
 import com.company.util.LinkGeneratorUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -84,6 +86,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public long count() {
+        return userRepository.count();
+    }
+
+    @Override
     public List<FileDto> showUploadFiles(UserDto userDto) {
         return null;
     }
@@ -115,8 +122,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<CustomUser> findByNameAndSurName(String name) {
-        return userRepository.findByNameAndSurName(name);
+    public Page<CustomUser> findByNameAndSurName(Pageable pageable, String name) {
+        return userRepository.findByNameAndSurName(pageable, name);
     }
 
     @Override
@@ -176,18 +183,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserPassword, String newUserEmail) {
+    public void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserEmail) {
         CustomUser user = userRepository.findById(id).get();
         user.setName(newUserName);
         user.setSurName(newUserSurName);
         user.setLogin(newUserLogin);
-        user.setPassword(encoder.encode(newUserPassword));
         user.setEmail(newUserEmail);
         userRepository.save(user);
     }
 
     @Transactional
-    public List<CustomUser> listUsers() {
-        return userRepository.findAll();
+    public Page<CustomUser> listUsers(Pageable pageable) {
+        return userRepository.findAll(pageable);
     }
 }

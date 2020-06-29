@@ -2,14 +2,14 @@ package com.company.controller;
 
 import com.company.dto.UserDto;
 import com.company.entity.FileStatus;
+import com.company.entity.FileToSave;
 import com.company.service.FileService;
 import com.company.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @Slf4j
 public class UserController {
+    static final int ITEMS_PER_PAGE = 5;
     @Autowired
     private UserService userService;
     @Autowired
@@ -69,8 +70,19 @@ public class UserController {
     }
 
     @GetMapping("/userPage")
-    public String userPage(Model model) {
-        model.addAttribute("files", fileService.getFileByStatus(FileStatus.PUBLIC));
+    public String userPage(Model model,@RequestParam(value = "name", required = false) String name,
+                           @RequestParam(required = false, defaultValue = "0") Integer page) {
+        if (page < 0) page = 0;
+        PageRequest pageParameters = PageRequest.of(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id");
+        Page<FileToSave> files;
+        if (name != null) {
+            files = fileService.getFileByStatus(pageParameters, name, FileStatus.PUBLIC);
+            model.addAttribute("name", name);
+        }else {
+            files = fileService.listFilesWithPublicStatus(FileStatus.PUBLIC, pageParameters);
+        }
+        model.addAttribute("files", files.getContent());
+        model.addAttribute("allPages", getPageCount(files.getTotalElements()));
         return "userPage";
     }
 
@@ -82,11 +94,14 @@ public class UserController {
             return "enterEmailForRecoverPassword";
         }
         userService.sendResetMessage(userDto);
-        return "ok";
+        return "okForEmail";
     }
 
     @GetMapping("/send-mail/reset-password")
     public String resetPassword() {
         return "enterEmailForRecoverPassword";
+    }
+    private long getPageCount(long totalCount) {
+        return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
 }

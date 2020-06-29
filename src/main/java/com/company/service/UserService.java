@@ -4,19 +4,21 @@ import com.company.dto.FileDto;
 import com.company.dto.UserDto;
 import com.company.entity.CustomUser;
 import com.company.entity.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface UserService {
     void saveUserInDb(UserDto userDto);
 
-    List<CustomUser> listUsers();
+    Page<CustomUser> listUsers(Pageable pageable);
 
     UserDto findUserById(Long id);
 
     void deleteUser(Long id);
 
-    void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserPassword, String newUserEmail);
+    void editUser(Long id, String newUserName, String newUserSurName, String newUserLogin, String newUserEmail);
 
     boolean checkUser(String login, String password);
 
@@ -28,7 +30,7 @@ public interface UserService {
 
     UserDto findUserByEmail(String email);
 
-    List<CustomUser> findByNameAndSurName(String name);
+    Page<CustomUser> findByNameAndSurName(Pageable pageable, String name);
 
     boolean isEmailPresentInDb(String email);
 
@@ -40,5 +42,5 @@ public interface UserService {
 
     List<FileDto> showUploadFiles(UserDto userDto);
 
-
+    long count();
 }
