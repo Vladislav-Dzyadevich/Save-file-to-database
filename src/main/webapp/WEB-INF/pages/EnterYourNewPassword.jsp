@@ -30,7 +30,7 @@
 <section>
     <form action="/reset-password" method="post">
         <p><h2 style="color: darkblue">Enter your new password</h2></p>
-        <P><input type="password" style="color: darkblue"name="newPassword"></P>
+        <P><input type="password" style="color: royalblue" name="newPassword"></P>
         <br>
         <input type="text " value="${email}" style="color: darkblue" name="email">
         <input type="submit" class="btn btn-primary" value="ok">

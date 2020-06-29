@@ -31,7 +31,7 @@
     <form action="/send-mail/reset-password" method="post">
         <br><br><br><br><br><br><br>
         <p style="color: darkblue"><strong>Enter your email</strong></p>
-        <input type="text" value="${email}" name="email">
+        <input type="text" style="color: royalblue" value="${email}" name="email">
         <input type="submit" class="btn btn-primary" value="Ok">
         <p style="color: brown"><strong>${emailFail}</strong></p>
     </form>
