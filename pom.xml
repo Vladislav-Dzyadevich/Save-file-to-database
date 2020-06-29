@@ -14,9 +14,9 @@
 	<name>demo</name>
 	<description>Upload file application</description>
 
-<!--	<properties>-->
-<!--		<java.version>11</java.version>-->
-<!--	</properties>-->
+	<properties>
+		<java.version>13</java.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
