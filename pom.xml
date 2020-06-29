@@ -8,6 +8,7 @@
 		<version>2.3.0.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>com.company</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -15,7 +16,7 @@
 	<description>Upload file application</description>
 
 	<properties>
-		<java.version>13</java.version>
+		<java.version>13.0.2</java.version>
 	</properties>
 
 	<dependencies>
@@ -84,6 +85,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>13.0.2</source>
+					<target>13.0.2</target>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
