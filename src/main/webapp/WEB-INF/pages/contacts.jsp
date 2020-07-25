@@ -2,12 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Menu</title>
+    <title>Private files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <style>
         body {
-            background:url(https://i.pinimg.com/originals/12/eb/59/12eb59390510c8bbf06a4ea5ca6600af.jpg); /* Цвет фона и путь к файлу */
+            background:url(https://i.pinimg.com/564x/6d/14/47/6d14478387776c3c814d35a44c708037.jpg); /* Цвет фона и путь к файлу */
             margin: 0; /* Убираем отступы */
             height: 100%; /* Высота страницы */
             color: #fff; /* Цвет текста */
@@ -76,46 +76,36 @@
     }
 </style>
 <section>
-    <form action="/uploadForUser" method="get">
-        <input type="submit"class="btn btn-primary" value="Upload file">
+    <table id="customers" align="left" border="2">
+        <tr>
+            <td><b>Name</b></td>
+            <td><b>Surname</b></td>
+            <td><b>Number</b></td>
+        </tr>
+        <c:forEach items="${contacts}" var="contact">
+            <tr>
+                <td>${contact.name}</td>
+                <td>${contact.surName}</td>
+                <td>${contact.number}</td>
+            </tr>
+        </c:forEach>
+    </table>
     </form>
-    <form action="/storage/private-files" method="get">
-        <input type="submit" class="btn btn-primary" value="Show my private files">
+    <form action="/add-contacts" method="post">
+        <p style="color:brown"><strong>${emptyFields}</strong></p>
+        <h2   style="color: slategray" align="center"><b>ADD NEW CONTACT</b></h2>
+        <h4 style="color: slategray"> <strong>N A M E</strong><br>
+            <input type="text"  maxlength="25" size="40" name="name"></h4>
+        <h4 style="color: slategray"><strong> S U R N A M E</strong><br>
+            <input type="text" maxlength="25" size="40" name="surName"></h4>
+        <h4 style="color: slategray"><strong>N U M B E R</strong><br>
+            <input type="text" maxlength="25" size="40" name="number"></h4>
+        <input type="submit" class="btn btn-primary" value="Add"  style="width:80pt;height:40px">
     </form>
     <form action="/menu" method="get">
-        <input type="submit" class="btn btn-primary" value="Menu">
+        <input type="submit" class="btn btn-primary" value="Go To Menu">
     </form>
-    <form action="/logout" method="get">
-        <input type="submit" class="btn btn-primary" value="Logout">
-    </form>
-    <form action="/userPage" method="get">
-        <input id = "txtSearch"  type="text" style="color: royalblue" name="name">
-        <button type="submit" class="btn btn-primary" >Search</button>
-        <table id="customers" align="left" border="2">
-            <tr>
-                <td><b>File Name</b></td>
-                <td><b>Size (KB)</b></td>
-                <td><b>Download</b></td>
-            </tr>
-            <c:forEach items="${files}" var="file">
-                <tr>
-                    <td>${file.fileName}</td>
-                    <td>${file.size}</td>
-                    <td><a href="/download/${file.id}" type="file">Download</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <c:if test="${allPages ne null}">
-                    <c:forEach var="i" begin="1" end="${allPages}">
-                        <li><a href="/userPage?page=<c:out value="${i - 1}"/>&name=${name}"><c:out value="${i}"/></a></li>
-                    </c:forEach>
-                </c:if>
-            </ul>
-        </nav>
-    </form>
-
+    </p>
 </section>
 
 </body>

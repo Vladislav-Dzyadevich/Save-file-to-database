@@ -2,12 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Menu</title>
+    <title>Private files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <style>
         body {
-            background:url(https://i.pinimg.com/originals/12/eb/59/12eb59390510c8bbf06a4ea5ca6600af.jpg); /* Цвет фона и путь к файлу */
+            background:url(https://mahno.com.ua/uploads/thumb/1/catalog_gallery/7071-IMG_0853.jpg); /* Цвет фона и путь к файлу */
             margin: 0; /* Убираем отступы */
             height: 100%; /* Высота страницы */
             color: #fff; /* Цвет текста */
@@ -76,46 +76,25 @@
     }
 </style>
 <section>
-    <form action="/uploadForUser" method="get">
-        <input type="submit"class="btn btn-primary" value="Upload file">
+    <form action="/show-book" method="get">
+        <input type = "submit" class="btn btn-primary" value="My Books">
     </form>
-    <form action="/storage/private-files" method="get">
-        <input type="submit" class="btn btn-primary" value="Show my private files">
+    <form action="/show-music" method="get">
+        <input type="submit" class="btn btn-primary" value="My music">
     </form>
-    <form action="/menu" method="get">
-        <input type="submit" class="btn btn-primary" value="Menu">
+    <form action="/show-notes" method="get">
+        <input type="submit" class="btn btn-primary" width="80" height="80" value="My Notes">
     </form>
-    <form action="/logout" method="get">
-        <input type="submit" class="btn btn-primary" value="Logout">
+    <form action="/show-contact" method="get">
+        <input type="submit" class="btn btn-primary" value="My Contact">
+    </form>
+    <form action="/show-travel" method="get">
+        <input type="submit" class="btn btn-primary" value="My Travel">
     </form>
     <form action="/userPage" method="get">
-        <input id = "txtSearch"  type="text" style="color: royalblue" name="name">
-        <button type="submit" class="btn btn-primary" >Search</button>
-        <table id="customers" align="left" border="2">
-            <tr>
-                <td><b>File Name</b></td>
-                <td><b>Size (KB)</b></td>
-                <td><b>Download</b></td>
-            </tr>
-            <c:forEach items="${files}" var="file">
-                <tr>
-                    <td>${file.fileName}</td>
-                    <td>${file.size}</td>
-                    <td><a href="/download/${file.id}" type="file">Download</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <c:if test="${allPages ne null}">
-                    <c:forEach var="i" begin="1" end="${allPages}">
-                        <li><a href="/userPage?page=<c:out value="${i - 1}"/>&name=${name}"><c:out value="${i}"/></a></li>
-                    </c:forEach>
-                </c:if>
-            </ul>
-        </nav>
+        <input type="submit" class="btn btn-primary" value="Go Back">
     </form>
-
+    </p>
 </section>
 
 </body>

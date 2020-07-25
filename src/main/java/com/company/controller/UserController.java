@@ -26,7 +26,8 @@ public class UserController {
     private FileService fileService;
 
     @PostMapping("/registration")
-    public String saveUser(@RequestParam("name") String name, @RequestParam("surName") String surName,
+    public String saveUser(@RequestParam("name") String name,
+                           @RequestParam("surName") String surName,
                            @RequestParam("login") String login,
                            @RequestParam("password") String password,
                            @RequestParam("email") String email, Model model) {
@@ -70,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/userPage")
-    public String userPage(Model model,@RequestParam(value = "name", required = false) String name,
+    public String userPage(Model model, @RequestParam(value = "name", required = false) String name,
                            @RequestParam(required = false, defaultValue = "0") Integer page) {
         if (page < 0) page = 0;
         PageRequest pageParameters = PageRequest.of(page, ITEMS_PER_PAGE, Sort.Direction.DESC, "id");
@@ -78,7 +79,7 @@ public class UserController {
         if (name != null) {
             files = fileService.getFileByStatus(pageParameters, name, FileStatus.PUBLIC);
             model.addAttribute("name", name);
-        }else {
+        } else {
             files = fileService.listFilesWithPublicStatus(FileStatus.PUBLIC, pageParameters);
         }
         model.addAttribute("files", files.getContent());

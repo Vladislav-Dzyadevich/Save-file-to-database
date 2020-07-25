@@ -2,12 +2,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Menu</title>
+    <title>Private files</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <style>
         body {
-            background:url(https://i.pinimg.com/originals/12/eb/59/12eb59390510c8bbf06a4ea5ca6600af.jpg); /* Цвет фона и путь к файлу */
+            background:url(https://xage.ru/media/uploads/2012/10/ml/ml_01_blog.jpg); /* Цвет фона и путь к файлу */
             margin: 0; /* Убираем отступы */
             height: 100%; /* Высота страницы */
             color: #fff; /* Цвет текста */
@@ -76,46 +76,41 @@
     }
 </style>
 <section>
-    <form action="/uploadForUser" method="get">
-        <input type="submit"class="btn btn-primary" value="Upload file">
+    <table id="customers" align="left" border="2">
+        <tr>
+            <td><b>City</b></td>
+            <td><b>Country</b></td>
+            <td><b>Continent</b></td>
+            <td><b>Year Of Visit</b></td>
+
+        </tr>
+        <c:forEach items="${travels}" var="travel">
+            <tr>
+                <td>${travel.city}</td>
+                <td>${travel.country}</td>
+                <td>${travel.continent}</td>
+                <td>${travel.yearOfVisit}</td>
+            </tr>
+        </c:forEach>
+    </table>
     </form>
-    <form action="/storage/private-files" method="get">
-        <input type="submit" class="btn btn-primary" value="Show my private files">
+    <form action="/add-travel" method="post">
+        <p style="color:brown"><strong>${emptyFields}</strong></p>
+        <h2   style="color: slategray" align="center"><b>ADD NEW TRAVEL</b></h2>
+        <h4 style="color: slategray"> <strong>C I T Y</strong><br>
+            <input type="text"  maxlength="25" size="40" name="city"></h4>
+        <h4 style="color: slategray"><strong>C O U N T R Y</strong><br>
+            <input type="text" maxlength="25" size="40" name="country"></h4>
+        <h4 style="color: slategray"><strong>C O N T I N E N T</strong><br>
+            <input type="text" maxlength="25" size="40" name="continent"></h4>
+        <h4 style="color: slategray"><strong>Y E A R O F V I S I T</strong><br>
+            <input type="text" maxlength="25" size="40" name="yearOfVisit"></h4>
+        <input type="submit" class="btn btn-primary" value="Add"  style="width:80pt;height:40px">
     </form>
     <form action="/menu" method="get">
-        <input type="submit" class="btn btn-primary" value="Menu">
+        <input type="submit" class="btn btn-primary" value="Go To Menu">
     </form>
-    <form action="/logout" method="get">
-        <input type="submit" class="btn btn-primary" value="Logout">
-    </form>
-    <form action="/userPage" method="get">
-        <input id = "txtSearch"  type="text" style="color: royalblue" name="name">
-        <button type="submit" class="btn btn-primary" >Search</button>
-        <table id="customers" align="left" border="2">
-            <tr>
-                <td><b>File Name</b></td>
-                <td><b>Size (KB)</b></td>
-                <td><b>Download</b></td>
-            </tr>
-            <c:forEach items="${files}" var="file">
-                <tr>
-                    <td>${file.fileName}</td>
-                    <td>${file.size}</td>
-                    <td><a href="/download/${file.id}" type="file">Download</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <c:if test="${allPages ne null}">
-                    <c:forEach var="i" begin="1" end="${allPages}">
-                        <li><a href="/userPage?page=<c:out value="${i - 1}"/>&name=${name}"><c:out value="${i}"/></a></li>
-                    </c:forEach>
-                </c:if>
-            </ul>
-        </nav>
-    </form>
-
+    </p>
 </section>
 
 </body>
